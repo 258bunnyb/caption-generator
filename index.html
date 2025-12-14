@@ -28,16 +28,16 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Choose your tone</label>
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
-                        <button onclick="selectTone('engaging')" id="tone-engaging" class="tone-btn px-4 py-2 rounded-lg font-medium bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg">Engaging</button>
-                        <button onclick="selectTone('professional')" id="tone-professional" class="tone-btn px-4 py-2 rounded-lg font-medium bg-gray-100 text-gray-700 hover:bg-gray-200">Professional</button>
-                        <button onclick="selectTone('casual')" id="tone-casual" class="tone-btn px-4 py-2 rounded-lg font-medium bg-gray-100 text-gray-700 hover:bg-gray-200">Casual</button>
-                        <button onclick="showUpgrade()" class="px-4 py-2 rounded-lg font-medium bg-gradient-to-r from-yellow-100 to-orange-100 text-gray-700">Funny 🔒</button>
-                        <button onclick="showUpgrade()" class="px-4 py-2 rounded-lg font-medium bg-gradient-to-r from-yellow-100 to-orange-100 text-gray-700">Inspirational 🔒</button>
-                        <button onclick="showUpgrade()" class="px-4 py-2 rounded-lg font-medium bg-gradient-to-r from-yellow-100 to-orange-100 text-gray-700">Viral Hooks 🔒</button>
+                        <button type="button" id="tone-engaging" class="tone-btn px-4 py-2 rounded-lg font-medium bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg">Engaging</button>
+                        <button type="button" id="tone-professional" class="tone-btn px-4 py-2 rounded-lg font-medium bg-gray-100 text-gray-700 hover:bg-gray-200">Professional</button>
+                        <button type="button" id="tone-casual" class="tone-btn px-4 py-2 rounded-lg font-medium bg-gray-100 text-gray-700 hover:bg-gray-200">Casual</button>
+                        <button type="button" class="px-4 py-2 rounded-lg font-medium bg-gradient-to-r from-yellow-100 to-orange-100 text-gray-700">Funny 🔒</button>
+                        <button type="button" class="px-4 py-2 rounded-lg font-medium bg-gradient-to-r from-yellow-100 to-orange-100 text-gray-700">Inspirational 🔒</button>
+                        <button type="button" class="px-4 py-2 rounded-lg font-medium bg-gradient-to-r from-yellow-100 to-orange-100 text-gray-700">Viral Hooks 🔒</button>
                     </div>
                 </div>
 
-                <button onclick="generateCaptions()" id="generateBtn" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">
+                <button type="button" id="generateBtn" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">
                     ✨ Generate Captions
                 </button>
             </div>
@@ -47,7 +47,7 @@
 
         <div id="upgradeModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
             <div class="bg-white rounded-2xl max-w-md w-full p-8 relative">
-                <button onclick="hideUpgrade()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl">×</button>
+                <button type="button" id="closeModal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl">×</button>
                 <div class="text-center">
                     <div class="w-16 h-16 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">👑</div>
                     <h2 class="text-2xl font-bold mb-2">Upgrade to Pro</h2>
@@ -66,9 +66,9 @@
                             <span class="text-gray-700">Save favorites</span>
                         </div>
                     </div>
-                    <button class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-4 rounded-lg font-bold text-lg hover:shadow-xl transition-all mb-3">Start Pro - $9/month</button>
+                    <button type="button" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-4 rounded-lg font-bold text-lg hover:shadow-xl transition-all mb-3">Start Pro - $9/month</button>
                     <p class="text-sm text-gray-500 mb-3">Cancel anytime • 7-day money-back guarantee</p>
-                    <button onclick="hideUpgrade()" class="w-full text-gray-600 py-2 hover:text-gray-800">Maybe later</button>
+                    <button type="button" id="maybeLater" class="w-full text-gray-600 py-2 hover:text-gray-800">Maybe later</button>
                 </div>
             </div>
         </div>
@@ -87,7 +87,7 @@
                         <li>✅ 3 basic tones</li>
                         <li>✅ Standard hashtags</li>
                     </ul>
-                    <button disabled class="w-full py-3 border-2 border-gray-300 rounded-lg font-semibold text-gray-400">Current Plan</button>
+                    <button type="button" disabled class="w-full py-3 border-2 border-gray-300 rounded-lg font-semibold text-gray-400">Current Plan</button>
                 </div>
                 <div class="border-2 border-purple-600 rounded-xl p-6 relative bg-gradient-to-br from-purple-50 to-pink-50">
                     <div class="absolute -top-3 right-6 bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-4 py-1 rounded-full text-sm font-bold">POPULAR</div>
@@ -99,7 +99,7 @@
                         <li>✅ Save favorites</li>
                         <li>✅ No watermarks</li>
                     </ul>
-                    <button onclick="showUpgrade()" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg font-bold hover:shadow-xl transition-all">Upgrade to Pro</button>
+                    <button type="button" id="upgradeBtn" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg font-bold hover:shadow-xl transition-all">Upgrade to Pro</button>
                 </div>
             </div>
         </div>
@@ -109,169 +109,200 @@
         </div>
     </div>
 
-    <script>
-        let selectedTone = 'engaging';
-        let dailyCount = 0;
-        const FREE_LIMIT = 3;
+<script>
+// Global variables
+let selectedTone = 'engaging';
+let dailyCount = 0;
+const FREE_LIMIT = 3;
 
-        function loadCount() {
-            const today = new Date().toDateString();
-            const stored = localStorage.getItem('captionData');
-            if (stored) {
-                const data = JSON.parse(stored);
-                if (data.date === today) {
-                    dailyCount = data.count || 0;
-                } else {
-                    dailyCount = 0;
-                    saveCount();
-                }
-            }
-            document.getElementById('captionCount').textContent = dailyCount;
+// Load count from localStorage
+function loadCount() {
+    const today = new Date().toDateString();
+    const stored = localStorage.getItem('captionData');
+    if (stored) {
+        const data = JSON.parse(stored);
+        if (data.date === today) {
+            dailyCount = data.count || 0;
+        } else {
+            dailyCount = 0;
+            saveCount();
         }
+    }
+    document.getElementById('captionCount').textContent = dailyCount;
+}
 
-        function saveCount() {
-            const today = new Date().toDateString();
-            localStorage.setItem('captionData', JSON.stringify({ date: today, count: dailyCount }));
+// Save count to localStorage
+function saveCount() {
+    const today = new Date().toDateString();
+    localStorage.setItem('captionData', JSON.stringify({ date: today, count: dailyCount }));
+}
+
+// Select tone
+function selectTone(tone) {
+    selectedTone = tone;
+    document.querySelectorAll('.tone-btn').forEach(btn => {
+        btn.className = 'tone-btn px-4 py-2 rounded-lg font-medium bg-gray-100 text-gray-700 hover:bg-gray-200';
+    });
+    const selectedBtn = document.getElementById('tone-' + tone);
+    if (selectedBtn) {
+        selectedBtn.className = 'tone-btn px-4 py-2 rounded-lg font-medium bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg';
+    }
+}
+
+// Show upgrade modal
+function showUpgrade() {
+    document.getElementById('upgradeModal').classList.remove('hidden');
+}
+
+// Hide upgrade modal
+function hideUpgrade() {
+    document.getElementById('upgradeModal').classList.add('hidden');
+}
+
+// Generate template captions
+function generateTemplateCaption(topic, tone) {
+    const templates = {
+        engaging: {
+            caption: `✨ ${topic} ✨\n\nThere's something magical about this moment! Can't wait to share more of this journey with you all. What are your thoughts? Drop them below! 💭`,
+            hashtags: ['daily', 'lifestyle', 'vibes', 'instagood', 'photooftheday'],
+            cta: 'Double tap if you love this! ❤️'
+        },
+        professional: {
+            caption: `${topic}\n\nExcited to share this with the community. Quality and excellence drive everything we do. Looking forward to your feedback and insights.`,
+            hashtags: ['professional', 'business', 'growth', 'success', 'excellence'],
+            cta: 'Follow for more industry insights! 📈'
+        },
+        casual: {
+            caption: `just ${topic} things 🌟\n\nhonestly loving this vibe rn. anyone else feeling this energy? lmk what you think!`,
+            hashtags: ['mood', 'vibes', 'relatable', 'life', 'real'],
+            cta: 'comment below! 👇'
         }
+    };
 
-        function selectTone(tone) {
-            selectedTone = tone;
-            document.querySelectorAll('.tone-btn').forEach(btn => {
-                btn.className = 'tone-btn px-4 py-2 rounded-lg font-medium bg-gray-100 text-gray-700 hover:bg-gray-200';
-            });
-            document.getElementById('tone-' + tone).className = 'tone-btn px-4 py-2 rounded-lg font-medium bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg';
-        }
+    const template = templates[tone] || templates.engaging;
+    
+    return [{
+        caption: template.caption,
+        hashtags: template.hashtags,
+        cta: template.cta
+    }, {
+        caption: `🔥 ${topic} 🔥\n\nThis is what I've been working on! Swipe to see more. What should I post next?`,
+        hashtags: ['content', 'creator', 'creative', 'inspiration', 'motivation'],
+        cta: 'Save this for later! 📌'
+    }, {
+        caption: `Obsessed with ${topic} lately! 💫\n\nHere's my take on it. Who else is into this? Tag a friend who needs to see this!`,
+        hashtags: ['trending', 'discover', 'explore', 'instagram', 'insta'],
+        cta: 'Share with someone who'd love this! 💕'
+    }];
+}
 
-        function showUpgrade() {
-            document.getElementById('upgradeModal').classList.remove('hidden');
-        }
+// Display results
+function displayResults(captions) {
+    const container = document.getElementById('results');
+    container.innerHTML = '';
+    container.classList.remove('hidden');
 
-        function hideUpgrade() {
-            document.getElementById('upgradeModal').classList.add('hidden');
-        }
-
-        async function generateCaptions() {
-            const topic = document.getElementById('topicInput').value.trim();
-            
-            if (!topic) {
-                alert('Please enter a topic for your post!');
-                return;
-            }
-
-            if (dailyCount >= FREE_LIMIT) {
-                showUpgrade();
-                return;
-            }
-
-            const btn = document.getElementById('generateBtn');
-            btn.disabled = true;
-            btn.innerHTML = '⏳ Generating Magic...';
-
-            // Simulate caption generation with pre-made templates
-            setTimeout(() => {
-                const captions = generateTemplateCaption(topic, selectedTone);
-                displayResults(captions);
-                
-                dailyCount++;
-                saveCount();
-                document.getElementById('captionCount').textContent = dailyCount;
-                
-                btn.disabled = false;
-                btn.innerHTML = '✨ Generate Captions';
-            }, 1500);
-        }
-
-        function generateTemplateCaption(topic, tone) {
-            const templates = {
-                engaging: {
-                    caption: `✨ ${topic} ✨\n\nThere's something magical about this moment! Can't wait to share more of this journey with you all. What are your thoughts? Drop them below! 💭`,
-                    hashtags: ['daily', 'lifestyle', 'vibes', 'instagood', 'photooftheday'],
-                    cta: 'Double tap if you love this! ❤️'
-                },
-                professional: {
-                    caption: `${topic}\n\nExcited to share this with the community. Quality and excellence drive everything we do. Looking forward to your feedback and insights.`,
-                    hashtags: ['professional', 'business', 'growth', 'success', 'excellence'],
-                    cta: 'Follow for more industry insights! 📈'
-                },
-                casual: {
-                    caption: `just ${topic} things 🌟\n\nhonestly loving this vibe rn. anyone else feeling this energy? lmk what you think!`,
-                    hashtags: ['mood', 'vibes', 'relatable', 'life', 'real'],
-                    cta: 'comment below! 👇'
-                }
-            };
-
-            const template = templates[tone];
-            
-            return [{
-                caption: template.caption,
-                hashtags: template.hashtags,
-                cta: template.cta
-            }, {
-                caption: `🔥 ${topic} 🔥\n\nThis is what I've been working on! Swipe to see more. What should I post next?`,
-                hashtags: ['content', 'creator', 'creative', 'inspiration', 'motivation'],
-                cta: 'Save this for later! 📌'
-            }, {
-                caption: `Obsessed with ${topic} lately! 💫\n\nHere's my take on it. Who else is into this? Tag a friend who needs to see this!`,
-                hashtags: ['trending', 'discover', 'explore', 'instagram', 'insta'],
-                cta: 'Share with someone who'd love this! 💕'
-            }];
-        }
-
-        function displayResults(captions) {
-            const container = document.getElementById('results');
-            container.innerHTML = '';
-            container.classList.remove('hidden');
-
-            captions.forEach((item, idx) => {
-                const fullCaption = `${item.caption}\n\n${item.cta}\n\n${item.hashtags.map(t => '#' + t).join(' ')}`;
-                
-                const card = document.createElement('div');
-                card.className = 'bg-white rounded-2xl shadow-xl p-6 hover:shadow-2xl transition-shadow';
-                card.innerHTML = `
-                    <div class="flex justify-between items-start mb-4">
-                        <h3 class="text-lg font-semibold text-gray-800">Caption ${idx + 1}</h3>
-                        <button onclick="copyCaption(${idx})" id="copy-${idx}" class="px-4 py-2 bg-purple-100 text-purple-700 rounded-lg hover:bg-purple-200 transition-colors font-medium">
-                            📋 Copy
-                        </button>
-                    </div>
-                    <div class="space-y-3">
-                        <div class="bg-gradient-to-r from-purple-50 to-pink-50 p-4 rounded-lg">
-                            <p class="text-gray-800 whitespace-pre-wrap">${item.caption}</p>
-                        </div>
-                        <div class="bg-orange-50 p-3 rounded-lg">
-                            <p class="text-sm font-medium text-orange-800">${item.cta}</p>
-                        </div>
-                        <div class="flex flex-wrap gap-2">
-                            ${item.hashtags.map(tag => `<span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">#${tag}</span>`).join('')}
-                        </div>
-                    </div>
-                `;
-                card.dataset.caption = fullCaption;
-                container.appendChild(card);
-            });
-
-            container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-
-        function copyCaption(idx) {
-            const cards = document.querySelectorAll('#results > div');
-            const caption = cards[idx].dataset.caption;
-            
-            navigator.clipboard.writeText(caption).then(() => {
-                const btn = document.getElementById('copy-' + idx);
-                btn.innerHTML = '✅ Copied!';
-                btn.classList.add('bg-green-100', 'text-green-700');
-                btn.classList.remove('bg-purple-100', 'text-purple-700');
-                
+    captions.forEach((item, idx) => {
+        const fullCaption = item.caption + '\n\n' + item.cta + '\n\n' + item.hashtags.map(t => '#' + t).join(' ');
+        
+        const card = document.createElement('div');
+        card.className = 'bg-white rounded-2xl shadow-xl p-6 hover:shadow-2xl transition-shadow';
+        card.innerHTML = `
+            <div class="flex justify-between items-start mb-4">
+                <h3 class="text-lg font-semibold text-gray-800">Caption ${idx + 1}</h3>
+                <button type="button" class="copy-btn px-4 py-2 bg-purple-100 text-purple-700 rounded-lg hover:bg-purple-200 transition-colors font-medium">
+                    📋 Copy
+                </button>
+            </div>
+            <div class="space-y-3">
+                <div class="bg-gradient-to-r from-purple-50 to-pink-50 p-4 rounded-lg">
+                    <p class="text-gray-800 whitespace-pre-wrap">${item.caption}</p>
+                </div>
+                <div class="bg-orange-50 p-3 rounded-lg">
+                    <p class="text-sm font-medium text-orange-800">${item.cta}</p>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    ${item.hashtags.map(tag => `<span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">#${tag}</span>`).join('')}
+                </div>
+            </div>
+        `;
+        card.dataset.caption = fullCaption;
+        container.appendChild(card);
+        
+        // Add copy functionality
+        card.querySelector('.copy-btn').addEventListener('click', function() {
+            navigator.clipboard.writeText(fullCaption).then(() => {
+                this.innerHTML = '✅ Copied!';
+                this.classList.add('bg-green-100', 'text-green-700');
+                this.classList.remove('bg-purple-100', 'text-purple-700');
                 setTimeout(() => {
-                    btn.innerHTML = '📋 Copy';
-                    btn.classList.remove('bg-green-100', 'text-green-700');
-                    btn.classList.add('bg-purple-100', 'text-purple-700');
+                    this.innerHTML = '📋 Copy';
+                    this.classList.remove('bg-green-100', 'text-green-700');
+                    this.classList.add('bg-purple-100', 'text-purple-700');
                 }, 2000);
             });
-        }
+        });
+    });
 
-        loadCount();
-    </script>
+    container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// Generate captions
+function generateCaptions() {
+    const topic = document.getElementById('topicInput').value.trim();
+    
+    if (!topic) {
+        alert('Please enter a topic for your post!');
+        return;
+    }
+
+    if (dailyCount >= FREE_LIMIT) {
+        showUpgrade();
+        return;
+    }
+
+    const btn = document.getElementById('generateBtn');
+    btn.disabled = true;
+    btn.innerHTML = '⏳ Generating Magic...';
+
+    setTimeout(() => {
+        const captions = generateTemplateCaption(topic, selectedTone);
+        displayResults(captions);
+        
+        dailyCount++;
+        saveCount();
+        document.getElementById('captionCount').textContent = dailyCount;
+        
+        btn.disabled = false;
+        btn.innerHTML = '✨ Generate Captions';
+    }, 1500);
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    loadCount();
+    
+    // Tone button handlers
+    document.getElementById('tone-engaging').addEventListener('click', () => selectTone('engaging'));
+    document.getElementById('tone-professional').addEventListener('click', () => selectTone('professional'));
+    document.getElementById('tone-casual').addEventListener('click', () => selectTone('casual'));
+    
+    // Generate button handler
+    document.getElementById('generateBtn').addEventListener('click', generateCaptions);
+    
+    // Modal handlers
+    document.getElementById('closeModal').addEventListener('click', hideUpgrade);
+    document.getElementById('maybeLater').addEventListener('click', hideUpgrade);
+    document.getElementById('upgradeBtn').addEventListener('click', showUpgrade);
+    
+    // Pro tone buttons (show upgrade)
+    document.querySelectorAll('button').forEach(btn => {
+        if (btn.textContent.includes('🔒')) {
+            btn.addEventListener('click', showUpgrade);
+        }
+    });
+});
+</script>
+
 </body>
 </html>
