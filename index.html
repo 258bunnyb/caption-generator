@@ -7,18 +7,13 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50 min-h-screen">
-    <div id="app" class="max-w-4xl mx-auto p-6">
+    <div class="max-w-4xl mx-auto p-6">
         <div class="text-center mb-8 pt-8">
-            <div class="flex items-center justify-center gap-2 mb-3">
-                <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
-                </svg>
-                <h1 class="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-                    CaptionCraft AI
-                </h1>
-            </div>
+            <h1 class="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-3">
+                ✨ CaptionCraft AI
+            </h1>
             <p class="text-gray-600 mb-4">Create engaging Instagram captions in seconds</p>
-            <div id="statusBadge" class="inline-flex items-center gap-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-full font-medium">
+            <div class="inline-flex items-center gap-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-full font-medium">
                 Free Plan: <span id="captionCount">0</span>/3 captions used today
             </div>
         </div>
@@ -27,19 +22,23 @@
             <div class="space-y-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">What's your post about?</label>
-                    <textarea id="topicInput" placeholder="E.g., Morning coffee routine, New product launch, Travel photo from Paris..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none" rows="3"></textarea>
+                    <textarea id="topicInput" placeholder="E.g., Morning coffee, New product launch, Travel photo..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 resize-none" rows="3"></textarea>
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Choose your tone</label>
-                    <div id="toneButtons" class="grid grid-cols-2 md:grid-cols-3 gap-2"></div>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
+                        <button onclick="selectTone('engaging')" id="tone-engaging" class="tone-btn px-4 py-2 rounded-lg font-medium bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg">Engaging</button>
+                        <button onclick="selectTone('professional')" id="tone-professional" class="tone-btn px-4 py-2 rounded-lg font-medium bg-gray-100 text-gray-700 hover:bg-gray-200">Professional</button>
+                        <button onclick="selectTone('casual')" id="tone-casual" class="tone-btn px-4 py-2 rounded-lg font-medium bg-gray-100 text-gray-700 hover:bg-gray-200">Casual</button>
+                        <button onclick="showUpgrade()" class="px-4 py-2 rounded-lg font-medium bg-gradient-to-r from-yellow-100 to-orange-100 text-gray-700">Funny 🔒</button>
+                        <button onclick="showUpgrade()" class="px-4 py-2 rounded-lg font-medium bg-gradient-to-r from-yellow-100 to-orange-100 text-gray-700">Inspirational 🔒</button>
+                        <button onclick="showUpgrade()" class="px-4 py-2 rounded-lg font-medium bg-gradient-to-r from-yellow-100 to-orange-100 text-gray-700">Viral Hooks 🔒</button>
+                    </div>
                 </div>
 
-                <button id="generateBtn" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">
-                    <svg class="w-5 h-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
-                    </svg>
-                    Generate Captions
+                <button onclick="generateCaptions()" id="generateBtn" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">
+                    ✨ Generate Captions
                 </button>
             </div>
         </div>
@@ -48,67 +47,231 @@
 
         <div id="upgradeModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
             <div class="bg-white rounded-2xl max-w-md w-full p-8 relative">
-                <button id="closeModal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl">×</button>
+                <button onclick="hideUpgrade()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl">×</button>
                 <div class="text-center">
-                    <div class="w-16 h-16 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
-                        </svg>
-                    </div>
+                    <div class="w-16 h-16 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">👑</div>
                     <h2 class="text-2xl font-bold mb-2">Upgrade to Pro</h2>
-                    <p id="modalText" class="text-gray-600 mb-6">Unlock unlimited captions!</p>
-                    <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-6 mb-6 text-left">
-                        <div class="space-y-3">
-                            <div class="flex items-center gap-3">
-                                <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                                <span class="text-gray-700">Unlimited captions daily</span>
-                            </div>
-                            <div class="flex items-center gap-3">
-                                <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
-                                <span class="text-gray-700">6 premium tones</span>
-                            </div>
-                            <div class="flex items-center gap-3">
-                                <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                <span class="text-gray-700">Priority support</span>
-                            </div>
+                    <p class="text-gray-600 mb-6">Unlock premium features!</p>
+                    <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-6 mb-6 text-left space-y-3">
+                        <div class="flex items-center gap-3">
+                            <span class="text-2xl">⚡</span>
+                            <span class="text-gray-700">Unlimited captions daily</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-2xl">✨</span>
+                            <span class="text-gray-700">6 premium tones</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-2xl">💾</span>
+                            <span class="text-gray-700">Save favorites</span>
                         </div>
                     </div>
-                    <button class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-4 rounded-lg font-bold text-lg hover:shadow-xl transition-all">Start Pro - $9/month</button>
-                    <p class="text-sm text-gray-500 mt-3">Cancel anytime • 7-day money-back guarantee</p>
-                    <button id="maybeLater" class="w-full text-gray-600 py-2 hover:text-gray-800 mt-2">Maybe later</button>
+                    <button class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-4 rounded-lg font-bold text-lg hover:shadow-xl transition-all mb-3">Start Pro - $9/month</button>
+                    <p class="text-sm text-gray-500 mb-3">Cancel anytime • 7-day money-back guarantee</p>
+                    <button onclick="hideUpgrade()" class="w-full text-gray-600 py-2 hover:text-gray-800">Maybe later</button>
                 </div>
             </div>
         </div>
 
         <div class="mt-12 bg-white rounded-2xl shadow-xl p-8">
             <div class="text-center mb-8">
-                <h2 class="text-3xl font-bold mb-2">Simple, Transparent Pricing</h2>
+                <h2 class="text-3xl font-bold mb-2">Simple Pricing</h2>
                 <p class="text-gray-600">Choose the plan that works for you</p>
             </div>
             <div class="grid md:grid-cols-2 gap-6">
                 <div class="border-2 border-gray-200 rounded-xl p-6">
                     <h3 class="text-xl font-bold mb-2">Free</h3>
                     <div class="text-3xl font-bold mb-4">$0<span class="text-lg text-gray-500">/month</span></div>
-                    <ul class="space-y-3 mb-6">
-                        <li class="flex items-center gap-2"><svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>3 captions per day</span></li>
-                        <li class="flex items-center gap-2"><svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>3 basic tones</span></li>
+                    <ul class="space-y-3 mb-6 text-gray-700">
+                        <li>✅ 3 captions per day</li>
+                        <li>✅ 3 basic tones</li>
+                        <li>✅ Standard hashtags</li>
                     </ul>
-                    <button disabled class="w-full py-3 border-2 border-gray-300 rounded-lg font-semibold text-gray-700 opacity-50">Current Plan</button>
+                    <button disabled class="w-full py-3 border-2 border-gray-300 rounded-lg font-semibold text-gray-400">Current Plan</button>
                 </div>
                 <div class="border-2 border-purple-600 rounded-xl p-6 relative bg-gradient-to-br from-purple-50 to-pink-50">
                     <div class="absolute -top-3 right-6 bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-4 py-1 rounded-full text-sm font-bold">POPULAR</div>
-                    <h3 class="text-xl font-bold mb-2">Pro</h3>
+                    <h3 class="text-xl font-bold mb-2">👑 Pro</h3>
                     <div class="text-3xl font-bold mb-4">$9<span class="text-lg text-gray-500">/month</span></div>
-                    <ul class="space-y-3 mb-6">
-                        <li class="flex items-center gap-2"><svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span class="font-medium">Unlimited captions</span></li>
-                        <li class="flex items-center gap-2"><svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span class="font-medium">9 premium tones</span></li>
-                        <li class="flex items-center gap-2"><svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span class="font-medium">Priority support</span></li>
+                    <ul class="space-y-3 mb-6 text-gray-700 font-medium">
+                        <li>✅ Unlimited captions</li>
+                        <li>✅ 9 premium tones</li>
+                        <li>✅ Save favorites</li>
+                        <li>✅ No watermarks</li>
                     </ul>
-                    <button class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg font-bold hover:shadow-xl transition-all">Upgrade to Pro</button>
+                    <button onclick="showUpgrade()" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg font-bold hover:shadow-xl transition-all">Upgrade to Pro</button>
                 </div>
             </div>
+        </div>
+
+        <div class="mt-8 text-center text-sm text-gray-500">
+            <p>🔥 Join 10,000+ creators saving 10+ hours per week</p>
         </div>
     </div>
 
     <script>
-        let selectedTone='engaging',isPro=false,dailyCount=0;const FREE_LIMIT=3,freeTones=['engaging','professional','casual'],proTones=['funny','inspirational','storytelling','viral hooks','luxury brand','motivational'];function init(){loadDailyCount(),renderToneButtons(),setupEventListeners()}function loadDailyCount(){const today=new Date().toDateString(),stored=localStorage.getItem('captionData');if(stored){const data=JSON.parse(stored);data.date===today?dailyCount=data.count||0:(dailyCount=0,saveDailyCount())}updateCountDisplay()}function saveDailyCount(){const today=new Date().toDateString();localStorage.setItem('captionData',JSON.stringify({date:today,count:dailyCount}))}function updateCountDisplay(){document.getElementById('captionCount').textContent=dailyCount}function renderToneButtons(){const container=document.getElementById('toneButtons');container.innerHTML='',freeTones.forEach(tone=>{container.appendChild(createToneButton(tone,false))}),proTones.forEach(tone=>{container.appendChild(createToneButton(tone,true))})}function createToneButton(tone,isProTone){const btn=document.createElement('button'),isSelected=selectedTone===tone;return isProTone&&!isPro?(btn.className='px-4 py-2 rounded-lg font-medium transition-all bg-gradient-to-r from-yellow-100 to-orange-100 text-gray-700 hover:from-yellow-200 hover:to-orange-200',btn.innerHTML=tone.charAt(0).toUpperCase()+tone.slice(1)+' 🔒',btn.onclick=()=>showUpgradeModal(false)):(btn.className=isSelected?'px-4 py-2 rounded-lg font-medium transition-all bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg':'px-4 py-2 rounded-lg font-medium transition-all bg-gray-100 text-gray-700 hover:bg-gray-200',btn.textContent=tone.charAt(0).toUpperCase()+tone.slice(1),btn.onclick=()=>{selectedTone=tone,renderToneButtons()}),btn}function setupEventListeners(){document.getElementById('generateBtn').addEventListener('click',generateCaptions),document.getElementById('closeModal').addEventListener('click',hideUpgradeModal),document.getElementById('maybeLater').addEventListener('click',hideUpgradeModal)}function showUpgradeModal(limitReached){const modal=document.getElementById('upgradeModal'),text=document.getElementById('modalText');text.textContent=limitReached?"You've used all your free captions for today!":"Unlock premium tones and unlimited captions",modal.classList.remove('hidden')}function hideUpgradeModal(){document.getElementById('upgradeModal').classList.add('hidden')}async function generateCaptions(){const topic=document.getElementById('topicInput').value.trim();if(!topic){alert('Please enter a topic!');return}if(!isPro&&dailyCount>=FREE_LIMIT){showUpgradeModal(true);return}if(!isPro&&proTones.includes(selectedTone)){showUpgradeModal(false);return}const btn=document.getElementById('generateBtn');btn.disabled=true,btn.innerHTML='⏳ Generating...';try{const response=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','anthropic-version':'2023-06-01','x-api-key':''},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1024,messages:[{role:'user',content:`Generate 3 Instagram captions for: "${topic}". Tone: ${selectedTone}. Return as JSON array with caption, hashtags array, and cta fields.`}]})});if(!response.ok)throw new Error('API error');const data=await response.json(),text=data.content[0].text,captions=JSON.parse(text.replace(/```json|```/g,'').trim());displayResults(captions),isPro||(dailyCount++,saveDailyCount(),updateCountDisplay())}catch(err){console.error(err);const fallbackCaptions=[{caption:`✨ ${topic} ✨\n\nThere's something magical about this moment! Can't wait to share more with you all. What do you think?`,hashtags:['instagram','content','daily','vibes','inspiration'],cta:'Double tap if you love this! ❤️'}];displayResults(fallbackCaptions),isPro||(dailyCount++,saveDailyCount(),updateCountDisplay())}finally{btn.disabled=false,btn.innerHTML='<svg class="w-5 h-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg> Generate Captions'}}function displayResults(captions){const container=document.getElementById('results');container.innerHTML='',container.classList.remove('hidden'),captions.forEach((item,idx)=>{const fullCaption=`${item.caption}\n\n${item.cta}\n\n${item.hashtags.map(t=>'#'+t).join(' ')}`,card=document.createElement('div');card.className='bg-white rounded-2xl shadow-xl p-6',card.innerHTML=`<div class="flex justify-between mb-4"><h3 class="text-lg font-semibold">Caption ${idx+1}</h3><button onclick="copyCaption(${idx})" class="px-4 py-2 bg-purple-100 text-purple-700 rounded-lg hover:bg-purple-200">Copy</button></div><div class="space-y-3"><div class="bg-gradient-to-r from-purple-50 to-pink-50 p-4 rounded-lg"><p class="text-gray-800">${item.caption}</p></div><div class="bg-orange-50 p-3 rounded-lg"><p class="text-sm font-medium text-orange-800">${item.cta}</p></div><div
+        let selectedTone = 'engaging';
+        let dailyCount = 0;
+        const FREE_LIMIT = 3;
+
+        function loadCount() {
+            const today = new Date().toDateString();
+            const stored = localStorage.getItem('captionData');
+            if (stored) {
+                const data = JSON.parse(stored);
+                if (data.date === today) {
+                    dailyCount = data.count || 0;
+                } else {
+                    dailyCount = 0;
+                    saveCount();
+                }
+            }
+            document.getElementById('captionCount').textContent = dailyCount;
+        }
+
+        function saveCount() {
+            const today = new Date().toDateString();
+            localStorage.setItem('captionData', JSON.stringify({ date: today, count: dailyCount }));
+        }
+
+        function selectTone(tone) {
+            selectedTone = tone;
+            document.querySelectorAll('.tone-btn').forEach(btn => {
+                btn.className = 'tone-btn px-4 py-2 rounded-lg font-medium bg-gray-100 text-gray-700 hover:bg-gray-200';
+            });
+            document.getElementById('tone-' + tone).className = 'tone-btn px-4 py-2 rounded-lg font-medium bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg';
+        }
+
+        function showUpgrade() {
+            document.getElementById('upgradeModal').classList.remove('hidden');
+        }
+
+        function hideUpgrade() {
+            document.getElementById('upgradeModal').classList.add('hidden');
+        }
+
+        async function generateCaptions() {
+            const topic = document.getElementById('topicInput').value.trim();
+            
+            if (!topic) {
+                alert('Please enter a topic for your post!');
+                return;
+            }
+
+            if (dailyCount >= FREE_LIMIT) {
+                showUpgrade();
+                return;
+            }
+
+            const btn = document.getElementById('generateBtn');
+            btn.disabled = true;
+            btn.innerHTML = '⏳ Generating Magic...';
+
+            // Simulate caption generation with pre-made templates
+            setTimeout(() => {
+                const captions = generateTemplateCaption(topic, selectedTone);
+                displayResults(captions);
+                
+                dailyCount++;
+                saveCount();
+                document.getElementById('captionCount').textContent = dailyCount;
+                
+                btn.disabled = false;
+                btn.innerHTML = '✨ Generate Captions';
+            }, 1500);
+        }
+
+        function generateTemplateCaption(topic, tone) {
+            const templates = {
+                engaging: {
+                    caption: `✨ ${topic} ✨\n\nThere's something magical about this moment! Can't wait to share more of this journey with you all. What are your thoughts? Drop them below! 💭`,
+                    hashtags: ['daily', 'lifestyle', 'vibes', 'instagood', 'photooftheday'],
+                    cta: 'Double tap if you love this! ❤️'
+                },
+                professional: {
+                    caption: `${topic}\n\nExcited to share this with the community. Quality and excellence drive everything we do. Looking forward to your feedback and insights.`,
+                    hashtags: ['professional', 'business', 'growth', 'success', 'excellence'],
+                    cta: 'Follow for more industry insights! 📈'
+                },
+                casual: {
+                    caption: `just ${topic} things 🌟\n\nhonestly loving this vibe rn. anyone else feeling this energy? lmk what you think!`,
+                    hashtags: ['mood', 'vibes', 'relatable', 'life', 'real'],
+                    cta: 'comment below! 👇'
+                }
+            };
+
+            const template = templates[tone];
+            
+            return [{
+                caption: template.caption,
+                hashtags: template.hashtags,
+                cta: template.cta
+            }, {
+                caption: `🔥 ${topic} 🔥\n\nThis is what I've been working on! Swipe to see more. What should I post next?`,
+                hashtags: ['content', 'creator', 'creative', 'inspiration', 'motivation'],
+                cta: 'Save this for later! 📌'
+            }, {
+                caption: `Obsessed with ${topic} lately! 💫\n\nHere's my take on it. Who else is into this? Tag a friend who needs to see this!`,
+                hashtags: ['trending', 'discover', 'explore', 'instagram', 'insta'],
+                cta: 'Share with someone who'd love this! 💕'
+            }];
+        }
+
+        function displayResults(captions) {
+            const container = document.getElementById('results');
+            container.innerHTML = '';
+            container.classList.remove('hidden');
+
+            captions.forEach((item, idx) => {
+                const fullCaption = `${item.caption}\n\n${item.cta}\n\n${item.hashtags.map(t => '#' + t).join(' ')}`;
+                
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-2xl shadow-xl p-6 hover:shadow-2xl transition-shadow';
+                card.innerHTML = `
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Caption ${idx + 1}</h3>
+                        <button onclick="copyCaption(${idx})" id="copy-${idx}" class="px-4 py-2 bg-purple-100 text-purple-700 rounded-lg hover:bg-purple-200 transition-colors font-medium">
+                            📋 Copy
+                        </button>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="bg-gradient-to-r from-purple-50 to-pink-50 p-4 rounded-lg">
+                            <p class="text-gray-800 whitespace-pre-wrap">${item.caption}</p>
+                        </div>
+                        <div class="bg-orange-50 p-3 rounded-lg">
+                            <p class="text-sm font-medium text-orange-800">${item.cta}</p>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            ${item.hashtags.map(tag => `<span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">#${tag}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+                card.dataset.caption = fullCaption;
+                container.appendChild(card);
+            });
+
+            container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function copyCaption(idx) {
+            const cards = document.querySelectorAll('#results > div');
+            const caption = cards[idx].dataset.caption;
+            
+            navigator.clipboard.writeText(caption).then(() => {
+                const btn = document.getElementById('copy-' + idx);
+                btn.innerHTML = '✅ Copied!';
+                btn.classList.add('bg-green-100', 'text-green-700');
+                btn.classList.remove('bg-purple-100', 'text-purple-700');
+                
+                setTimeout(() => {
+                    btn.innerHTML = '📋 Copy';
+                    btn.classList.remove('bg-green-100', 'text-green-700');
+                    btn.classList.add('bg-purple-100', 'text-purple-700');
+                }, 2000);
+            });
+        }
+
+        loadCount();
+    </script>
+</body>
+</html>
