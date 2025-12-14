@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CaptionCraft AI - Instagram Caption Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50 min-h-screen">
+    <div id="app" class="max-w-4xl mx-auto p-6">
+        <div class="text-center mb-8 pt-8">
+            <div class="flex items-center justify-center gap-2 mb-3">
+                <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                </svg>
+                <h1 class="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                    CaptionCraft AI
+                </h1>
+            </div>
+            <p class="text-gray-600 mb-4">Create engaging Instagram captions in seconds</p>
+            <div id="statusBadge" class="inline-flex items-center gap-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-full font-medium">
+                Free Plan: <span id="captionCount">0</span>/3 captions used today
+            </div>
+        </div>
+        <div class="bg-white rounded-2xl shadow-xl p-6 mb-6">
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">What's your post about?</label>
+                    <textarea id="topicInput" placeholder="E.g., Morning coffee routine, New product launch, Travel photo from Paris..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none" rows="3"></textarea>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Choose your tone</label>
+                    <div id="toneButtons" class="grid grid-cols-2 md:grid-cols-3 gap-2"></div>
+                </div>
+                <button id="generateBtn" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                    </svg>
+                    Generate Captions
+                </button>
+            </div>
+        </div>
+        <div id="results" class="space-y-4 hidden"></div>
+        <div id="upgradeModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+            <div class="bg-white rounded-2xl max-w-md w-full p-8 relative">
+                <button id="closeModal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl">×</button>
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
+                        </svg>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-2">Upgrade to Pro</h2>
+                    <p id="modalText" class="text-gray-600 mb-6">You've used all your free captions for today!</p>
+                    <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-6 mb-6 text-left">
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                <span class="text-gray-700">Unlimited captions daily</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+                                <span class="text-gray-700">6 premium tones (viral hooks, luxury, etc)</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span class="text-gray-700">Save & organize favorites</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span class="text-gray-700">No watermarks</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <button class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-4 rounded-lg font-bold text-lg hover:shadow-xl transition-all">Start Pro - $9/month</button>
+                        <p class="text-sm text-gray-500">Cancel anytime • 7-day money-back guarantee</p>
+                        <button id="maybeLater" class="w-full text-gray-600 py-2 hover:text-gray-800">Maybe later</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-12 bg-white rounded-2xl shadow-xl p-8">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold mb-2">Simple, Transparent Pricing</h2>
+                <p class="text-gray-600">Choose the plan that works for you</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="border-2 border-gray-200 rounded-xl p-6">
+                    <h3 class="text-xl font-bold mb-2">Free</h3>
+                    <div class="text-3xl font-bold mb-4">$0<span class="text-lg text-gray-500">/month</span></div>
+                    <ul class="space-y-3 mb-6">
+                        <li class="flex items-center gap-2"><svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>3 captions per day</span></li>
+                        <li class="flex items-center gap-2"><svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>3 basic tones</span></li>
+                        <li class="flex items-center gap-2"><svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>Standard hashtags</span></li>
+                    </ul>
+                    <button disabled class="w-full py-3 border-2 border-gray-300 rounded-lg font-semibold text-gray-700 opacity-50">Current Plan</button>
+                </div>
+                <div class="border-2 border-purple-600 rounded-xl p-6 relative bg-gradient-to-br from-purple-50 to-pink-50">
+                    <div class="absolute -top-3 right-6 bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-4 py-1 rounded-full text-sm font-bold">POPULAR</div>
+                    <h3 class="text-xl font-bold mb-2 flex items-center gap-2"><svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>Pro</h3>
+                    <div class="text-3xl font-bold mb-4">$9<span class="text-lg text-gray-500">/month</span></div>
+                    <ul class="space-y-3 mb-6">
+                        <li class="flex items-center gap-2"><svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span class="font-medium">Unlimited captions</span></li>
+                        <li class="flex items-center gap-2"><svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span class="font-medium">9 premium tones</span></li>
+                        <li class="flex items-center gap-2"><svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span class="font-medium">Save favorites</span></li>
+                        <li class="flex items-center gap-2"><svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span class="font-medium">No watermarks</span></li>
+                    </ul>
+                    <button class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg font-bold hover:shadow-xl transition-all">Upgrade to Pro</button>
+                </div>
+            </div>
+        </div>
+        <div class="mt-8 text-center text-sm text-gray-500"><p>🔥 Join 10,000+ creators saving 10+ hours per week</p></div>
+    </div>
+    <script>
+        let selectedTone='engaging',isPro=false,dailyCount=0;const FREE_LIMIT=3,freeTones=['engaging','professional','casual'],proTones=['funny','inspirational','storytelling','viral hooks','luxury brand','motivational'];function init(){loadDailyCount(),renderToneButtons(),setupEventListeners()}function loadDailyCount(){const e=new Date().toDateString(),t=localStorage.getItem('captionData');if(t){const n=JSON.parse(t);n.date===e?dailyCount=n.count||0:(dailyCount=0,saveDailyCount())}updateCountDisplay()}function saveDailyCount(){const e=new Date().toDateString();localStorage.setItem('captionData',JSON.stringify({date:e,count:dailyCount}))}function updateCountDisplay(){document.getElementById('captionCount').textContent=dailyCount}function renderToneButtons(){const e=document.getElementById('toneButtons');e.innerHTML='',freeTones.forEach(t=>{e.appendChild(createToneButton(t,false))}),proTones.forEach(t=>{e.appendChild(createToneButton(t,true))})}function createToneButton(e,t){const n=document.createElement('button'),o=selectedTone===e;return t&&!isPro?(n.className='px-4 py-2 rounded-lg font-medium transition-all bg-gradient-to-r from-yellow-100 to-orange-100 text-gray-700 hover:from-yellow-200 hover:to-orange-200 flex items-center gap-1 justify-center',n.innerHTML=e.charAt(0).toUpperCase()+e.slice(1)+' <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>',n.onclick=()=>showUpgradeModal(false)):(n.className=o?'px-4 py-2 rounded-lg font-medium transition-all bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg':'px-4 py-2 rounded-lg font-medium transition-all bg-gray-100 text-gray-700 hover:bg-gray-200',n.textContent=e.charAt(0).toUpperCase()+e.slice(1),n.onclick=()=>{selectedTone=e,renderToneButtons()}),n}function setupEventListeners(){document.getElementById('generateBtn').addEventListener('click',generateCaptions),document.getElementById('closeModal').addEventListener('click',hideUpgradeModal),document.getElementById('maybeLater').addEventListener('click',hideUpgradeModal)}function showUpgradeModal(e){const t=document.getElementById('upgradeModal'),n=document.getElementById('modalText');n.textContent=e?"You've used all your free captions for today!":"Unlock premium tones and unlimited captions",t.classList.remove('hidden')}function hideUpgradeModal(){document.getElementById('upgradeModal').classList.add('hidden')}async function generateCaptions(){const e=document.getElementById('topicInput').value.trim();if(!e)return void alert('Please enter a topic for your post!');if(!isPro&&dailyCount>=FREE_LIMIT)return void showUpgradeModal(true);if(!isPro&&proTones.includes(selectedTone))return void showUpgradeModal(false);const t=document.getElementById('generateBtn');t.disabled=true,t.innerHTML='<svg class="w-5 h-5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg> Generating Magic...';try{const n=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:`Generate 3 Instagram captions for: "${e}"\n\nTone: ${selectedTone}\n\nFor each caption, provide:\n1. A hook (first line to grab attention)\n2. Main caption text (2-3 sentences)\n3. 5-8 relevant hashtags\n4. A call-to-action\n\nFormat as JSON array:\n[\n  {\n    "caption": "full caption text with emojis",\n    "hashtags": ["hashtag1", "hashtag2", ...],\n    "cta": "call to action"\n  }\n]\n\nMake them ${selectedTone}, engaging, and Instagram-optimized. Use emojis naturally. Return ONLY the JSON array, no other text.`}]})});const o=await n.json(),a=o.content.map(e=>'text'===e.type?e.text:'').join(''),r=a.replace(/```json|```/g,'').trim(),s=JSON.parse(r);displayResults(s),isPro||(dailyCount++,saveDailyCount(),updateCountDisplay())}catch(e){console.error('Error:',e),alert('Failed to generate captions. Please try again!')}finally{t.disabled=false,t.innerHTML='<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg> Generate Captions'}}function displayResults(e){const t=document.getElementById('results');t.innerHTML='',t.classList.remove('hidden'),e.forEach((e,n)=>{const o=`${e.caption}\n\n${e.cta}\n\n${e.hashtags.map(e=>'#'+e).join(' ')}`,a=document.createElement('div');a.className='bg-white rounded-2xl shadow-xl p-6 hover:shadow-2xl transition-shadow',a.innerHTML=`<div class="flex items-start justify-between mb-4"><h3 class="text-lg font-semibold text-gray-800">Caption ${n+1}</h3><button onclick="copyCaption('${n}')" class="flex items-center gap-2 px-4 py-2 bg-purple-100 text-purple-700 rounded-lg hover:bg-purple-200 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>Copy</button></div><div class="space-y-3"><div class="bg-gradient-to-r from-purple-50 to-pink-50 p-4 rounded-lg"><p class="text-gray-800 whitespace-pre-wrap">${e.caption}</p></div><div class="bg-orange-50 p-3 rounded-lg"><p class="text-sm font-medium text-orange-800">${e.cta}</p></div><div class="flex flex-wrap gap-2">${e.hashtags.map(e=>`<span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">#${e}</span>`).join('')}</div></div>`,a.dataset.caption=o,t.appendChild(a)}),t.scrollIntoView({behavior:'smooth',block:'nearest'})}function copyCaption(e){const t=document.querySelectorAll('#results > div'),n=t[e].dataset.caption;navigator.clipboard.writeText(n).then(()=>{const n=t[e].querySelector('button'),o=n.innerHTML;n.innerHTML='<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Copied!',setTimeout(()=>{n.innerHTML=o},2000)})}init();
+    </script>
+</body>
+</html>
+```
+
+---
+
+## **NOW IN GITHUB:**
+
+1. **Make sure you're on the page where it says "Name your file..." at the top**
+2. **The filename should say `index.html`**
+3. **Click in the big text box below**
+4. **Press `Ctrl + A` (or `Command + A` on Mac) to select any existing text**
+5. **Paste the code above** (Ctrl + V or Command + V)
+6. **Scroll down**
+7. **Click the green button "Commit changes"**
+
+---
+
+## **Step 4: Enable GitHub Pages (30 seconds)**
+
+1. Click on **"Settings"** (top right of your repository)
+2. Scroll down and click **"Pages"** in the left sidebar
+3. Under **"Branch"**, click the dropdown that says "None"
+4. Select **"main"**
+5. Click **"Save"**
+6. **Wait 1-2 minutes**
+
+---
+
+## **Step 5: Visit Your Live Site! 🎉**
+
+Your site will be live at:
+```
+https://YOUR-GITHUB-USERNAME.github.io/caption-generator
